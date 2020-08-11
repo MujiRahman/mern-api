@@ -6,7 +6,7 @@ import axios from 'axios';
 class BlogPost extends Component {
     state= {
         post: [],
-        formBlogPost: {
+        fromBlogPost: {
             id: 1,
             title: '',
             body: '',
@@ -25,11 +25,11 @@ class BlogPost extends Component {
     }
 
     putDataApi = () => {
-        axios.put(`http://localhost:3004/posts/${this.state.formBlogPost.id}`, this.state.formBlogPost) .then((res) => {console.log(res);
+        axios.put(`http://localhost:3004/posts/${this.state.fromBlogPost.id}`, this.state.fromBlogPost) .then((res) => {console.log(res);
             this.getPostApi();
             this.setState({
                 isUpdate: false,
-                formBlogPost: {
+                fromBlogPost: {
                     id: 1,
                     title: '',
                     body: '',
@@ -40,11 +40,11 @@ class BlogPost extends Component {
     }
 
     postDataApi = () =>{
-        axios.post('http://localhost:3004/posts', this.state.formBlogPost)
+        axios.post('http://localhost:3004/posts', this.state.fromBlogPost)
         .then((res) => {console.log(res);
         this.getPostApi();
         this.setState({
-            formBlogPost: {
+            fromBlogPost: {
                 id: 1,
                 title: '',
                 body: '',
@@ -62,22 +62,22 @@ class BlogPost extends Component {
     handleUpdate = (data) => {
         console.log(data)
         this.setState({
-            formBlogPost: data,
+            fromBlogPost: data,
             isUpdate: true
         })
     }
 
     handleFormChange = (event) => { 
-        let formBlogPostNew = {...this.state.formBlogPost};
+        let formBlogPostNew = {...this.state.fromBlogPost};
         let timeStemp = new Date().getTime();
         if(!this.state.isUpdate){
             formBlogPostNew['id'] = timeStemp;
         }
         formBlogPostNew[event.target.name] = event.target.value;
         this.setState({
-            formBlogPost: formBlogPostNew
+            fromBlogPost: formBlogPostNew
         },() => {
-            // console.log(this.state.formBlogPost)
+            // console.log(this.state.fromBlogPost)
         })
 
     }
@@ -104,9 +104,9 @@ class BlogPost extends Component {
                 <p>BLog Post</p>
                 <div className="form-add-post">
                     <label htmlFor="title">Title</label>
-                    <input type="text" value={this.state.formBlogPost.title} name="title" placeholder="masukan judul" onChange={this.handleFormChange}/>
+                    <input type="text" value={this.state.fromBlogPost.title} name="title" placeholder="masukan judul" onChange={this.handleFormChange}/>
                     <label htmlFor="body">Body content</label>
-                    <textarea name="body" id="body" value={this.state.formBlogPost.body} placeholder="masukan content"onChange={this.handleFormChange}/>
+                    <textarea name="body" id="body" value={this.state.fromBlogPost.body} placeholder="masukan content"onChange={this.handleFormChange}/>
                     <button className="btn-submit" onClick={this.handleSubmit}>Simpan</button>
                 </div>
                 {
