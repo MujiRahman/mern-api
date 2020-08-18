@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import './BlogPost.css';
 import Post from '../../component/Post/Post';
 import axios from 'axios';
+import { GLobalConsumer } from '../../context/context';
 
 class BlogPost extends Component {
     state= {
@@ -114,9 +115,10 @@ class BlogPost extends Component {
                         return <Post key={post.id} data={post} remove={this.handlerRemove} update={this.handleUpdate} goDetail={this.handleDetail}/>
                     })
                 }
+                <p>context: {this.props.state.totalOrder}</p>
             </Fragment>
         )
     }
 }
 
-export default BlogPost;
+export default GLobalConsumer(BlogPost);

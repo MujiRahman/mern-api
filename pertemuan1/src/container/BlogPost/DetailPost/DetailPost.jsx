@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { GLobalConsumer } from "../../../context/context";
 
 class DetailPost extends Component{
     state = {
@@ -27,6 +28,7 @@ class DetailPost extends Component{
             <div>
                 <p>{this.state.post.title}</p>
                 <p>{this.state.post.body}</p>
+                
             </div>
         )
     }

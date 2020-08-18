@@ -10,6 +10,7 @@ const YouTubeComp = (props) => {
             </div>
             <p className="title">{props.title}</p>
             <p className="desc">{props.desc}</p>
+            <hr/>
         </div>
     )
 }
