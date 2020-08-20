@@ -2,7 +2,8 @@ import React, {Component, Fragment} from 'react';
 import './BlogPost.css';
 import Post from '../../component/Post/Post';
 import axios from 'axios';
-import { GLobalConsumer } from '../../context/context';
+// import { GLobalConsumer } from '../../context/context';
+import API from '../../service/service';
 
 class BlogPost extends Component {
     state= {
@@ -16,13 +17,19 @@ class BlogPost extends Component {
         isUpdate: false
     }
 
-    getPostApi = ()=>{
-        axios.get('http://localhost:3004/posts?_sort=id&_order=desc')
-        .then((result)=>{
+    getPostApi = ()=> {
+        API.getNewsBlog() .then(result => {
             this.setState({
-                post: result.data
+                post: result
             })
         })
+        
+        // axios.get('http://localhost:3004/posts?_sort=id&_order=desc')
+        // .then((result)=>{
+        //     this.setState({
+        //         post: result.data
+        //     })
+        // })
     }
 
     putDataApi = () => {
@@ -115,10 +122,11 @@ class BlogPost extends Component {
                         return <Post key={post.id} data={post} remove={this.handlerRemove} update={this.handleUpdate} goDetail={this.handleDetail}/>
                     })
                 }
-                <p>context: {this.props.state.totalOrder}</p>
+                {/* <p>context: {this.props.state.totalOrder}</p> */}
             </Fragment>
         )
     }
 }
 
-export default GLobalConsumer(BlogPost);
+// export default GLobalConsumer(BlogPost);
+export default BlogPost;
