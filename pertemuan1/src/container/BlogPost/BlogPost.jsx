@@ -14,13 +14,19 @@ class BlogPost extends Component {
             body: '',
             userId: 1
         },
-        isUpdate: false
+        isUpdate: false,
+        comments: []
     }
 
     getPostApi = ()=> {
         API.getNewsBlog() .then(result => {
             this.setState({
                 post: result
+            })
+        })
+        API.getComments() .then(result => {
+            this.setState({
+                comments: result
             })
         })
         
@@ -32,8 +38,34 @@ class BlogPost extends Component {
         // })
     }
 
+    postDataApi = () =>{
+        API.postNewBlog(this.state.fromBlogPost).then((res) => {
+            this.getPostApi();
+            this.setState({
+                fromBlogPost: {
+                    id: 1,
+                    title: '',
+                    body: '',
+                    userId: 1
+                }
+            })
+        })
+        // axios.post('http://localhost:3004/posts', this.state.fromBlogPost)
+        // .then((res) => {console.log(res);
+        // this.getPostApi();
+        // this.setState({
+        //     fromBlogPost: {
+        //         id: 1,
+        //         title: '',
+        //         body: '',
+        //         userId: 1
+        //     }
+        // })
+        // }, (err) => {console.log(err);})
+    }
+
     putDataApi = () => {
-        axios.put(`http://localhost:3004/posts/${this.state.fromBlogPost.id}`, this.state.fromBlogPost) .then((res) => {console.log(res);
+        API.putNewBlog(this.state.fromBlogPost.id, this.state.fromBlogPost) .then((res) => {
             this.getPostApi();
             this.setState({
                 isUpdate: false,
@@ -45,26 +77,26 @@ class BlogPost extends Component {
                 }
             })
         })
-    }
-
-    postDataApi = () =>{
-        axios.post('http://localhost:3004/posts', this.state.fromBlogPost)
-        .then((res) => {console.log(res);
-        this.getPostApi();
-        this.setState({
-            fromBlogPost: {
-                id: 1,
-                title: '',
-                body: '',
-                userId: 1
-            }
-        })
-        }, (err) => {console.log(err);})
+        // axios.put(`http://localhost:3004/posts/${this.state.fromBlogPost.id}`, this.state.fromBlogPost) .then((res) => {console.log(res);
+        //     this.getPostApi();
+        //     this.setState({
+        //         isUpdate: false,
+        //         fromBlogPost: {
+        //             id: 1,
+        //             title: '',
+        //             body: '',
+        //             userId: 1
+        //         }
+        //     })
+        // })
     }
 
     handlerRemove = (data) =>{
-        axios.delete(`http://localhost:3004/posts/${data}`)
-        .then((result) =>{this.getPostApi()})
+        API.deleteNewBlog(data) .then(res => {
+            this.getPostApi();
+        })
+        // axios.delete(`http://localhost:3004/posts/${data}`)
+        // .then((result) =>{this.getPostApi()})
     }
 
     handleUpdate = (data) => {
@@ -117,6 +149,11 @@ class BlogPost extends Component {
                     <textarea name="body" id="body" value={this.state.fromBlogPost.body} placeholder="masukan content"onChange={this.handleFormChange}/>
                     <button className="btn-submit" onClick={this.handleSubmit}>Simpan</button>
                 </div>
+                {/* {
+                    this.state.comments.map(comment => {
+                    return <p>{comment.name} - {comment.email}</p>
+                    }) 
+                } */}
                 {
                     this.state.post.map(post => {
                         return <Post key={post.id} data={post} remove={this.handlerRemove} update={this.handleUpdate} goDetail={this.handleDetail}/>

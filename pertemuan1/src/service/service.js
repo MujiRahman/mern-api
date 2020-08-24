@@ -1,24 +1,22 @@
-import axios from 'axios';
+import Get from './get'
+import Post from './post'
+import Put from './put';
+import Delete from './delete';
 
-const RootPath = 'http://localhost:3004';
 
-const Get = (path) => {
-    const promise = new Promise((resolve, reject) =>{
-        axios.get(`${RootPath}/${path}`)
-        .then((result)=> {
-            resolve(result.data);
-        }, (err)=> {
-            reject(err);
-        })
-    })
-    return promise;
-}
-
-const getNewsBlog = () => Get('posts?_sort=id&_order=desc');
+const getNewsBlog = () => Get('posts?_sort=id&_order=desc', false);
+const getComments = () => Get('comments', true);
+const postNewBlog = (data) => Post('posts', false, data);
+const putNewBlog = (id, data) => Put(`posts/${id}`, false, data);
+const deleteNewBlog = (id) => Delete(`posts/${id}`, false);
 
 
 const API = {
-    getNewsBlog
+    getNewsBlog,
+    getComments,
+    postNewBlog,
+    putNewBlog,
+    deleteNewBlog
 }
 
 export default API;
