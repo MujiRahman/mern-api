@@ -1,3 +1,7 @@
+import firebase from 'firebase/app';
+// import 'firebase/auth';
+// import 'firebase/firebase-firestore';
+
 var firebaseConfig = {
     apiKey: "AIzaSyBI6vYNLImY64pKlTUnyQQuSfBWw6_dnhY",
     authDomain: "simple-note-list.firebaseapp.com",
@@ -10,4 +14,6 @@ var firebaseConfig = {
 };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+// firebase.analytics();
+
+export default firebase;
