@@ -1,9 +1,9 @@
 import React from 'react';
 import './link.scss';
 
-const Link = ({title, onclick}) => {
+const Link = ({title, onClick}) => {
     return (
-        <p className="link" onclick={onclick}>{title}</p>
+        <p className="link" onClick={onClick}>{title}</p>
         
     )
 }
