@@ -7,8 +7,8 @@ const blogController = require('../controllers/blog')
 
 // [POST] : /v1/blog/post
 router.post('/post', [
-    body('title').isLength({min:5}), 
-    body('body').isLength({min:10})], 
+    body('title').isLength({min:5}).withMessage('input title tidak sesuai'), 
+    body('body').isLength({min:10}).withMessage('input isi tidak sesuai')], 
     blogController.createBlogPost);
 
 module.exports = router;

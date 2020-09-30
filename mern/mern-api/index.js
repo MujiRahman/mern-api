@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 const authRoutes = require('./src/routes/auth');
@@ -15,7 +16,19 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/v1/auth', authRoutes)
-app.use('/v1/blog', blogRoutes)
+app.use('/v1/auth', authRoutes);
+app.use('/v1/blog', blogRoutes);
 
-app.listen(4000);
+app.use((error, req, res, next) => {
+    const status = error.errorStatus || 500;
+    const message = error.message;
+    const data = error.data;
+
+    res.status(status).json({message: message, data: data});
+})
+
+mongoose.connect('mongodb+srv://mujirahman:JWOhKISI36dfv3yo@cluster0.h7zqn.mongodb.net/<dbname>?retryWrites=true&w=majority')
+.then(() => {
+    app.listen(4000, ()=> console.log('connection success'));
+})
+.catch(err => console.log('isi error', err));
