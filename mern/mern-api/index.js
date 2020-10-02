@@ -27,8 +27,20 @@ app.use((error, req, res, next) => {
     res.status(status).json({message: message, data: data});
 })
 
-mongoose.connect('mongodb+srv://mujirahman:JWOhKISI36dfv3yo@cluster0.h7zqn.mongodb.net/<dbname>?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://mujirahman:mujirahman321@cluster0.h7zqn.mongodb.net/blog?retryWrites=true&w=majority', {useUnifiedTopology: true,
+useNewUrlParser: true,
+useCreateIndex: true,})
 .then(() => {
-    app.listen(4000, ()=> console.log('connection success'));
+    app.listen(4000, ()=> console.log('connection success neme'))
 })
 .catch(err => console.log('isi error', err));
+
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'gaal connection error:'));
+// db.once('open', function() {
+//     console.log('success')
+// });
+
+// mongoose.set('useNewUrlParser', true);
+// mongoose.set('useFindAndModify', false);
+// mongoose.set('useCreateIndex', true);
