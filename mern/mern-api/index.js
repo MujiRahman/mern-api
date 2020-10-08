@@ -56,6 +56,6 @@ mongoose.connect('mongodb+srv://mujirahman:mujirahman321@cluster0.h7zqn.mongodb.
 useNewUrlParser: true,
 useCreateIndex: true,})
 .then(() => {
-    app.listen(4000, ()=> console.log('connection success neme'))
+    app.listen(4000, ()=> console.log('connection success nemen'))
 })
 .catch(err => console.log('isi error', err)); 
