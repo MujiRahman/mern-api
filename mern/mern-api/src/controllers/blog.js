@@ -1,4 +1,6 @@
 const {validationResult} = require('express-validator');
+const path = require('path');
+const fs = require('fs');
 const BlogPost = require('../models/blog');
 
 
@@ -42,15 +44,29 @@ exports.createBlogPost = (req, res, next) => {
 }
 
 exports.getAllBlogPost = (req, res, next) => {
+    const curruntPage = req.query.page || 1;
+    const perPage = req.query.perPage || 5;
+    let totalItems;
+
     BlogPost.find()
+    .countDocuments()
+    .then(count => {
+        totalItems = count;
+        return BlogPost.find()
+        .skip((parseInt(curruntPage) - 1) * parseInt(perPage))
+        .limit(perPage);
+    })
     .then(result => {
         res.status(200).json({
             message: 'data blog post telah berhasil dipanggil',
-            data: result
+            data: result,
+            total_Data: totalItems,
+            per_Page: perPage,
+            currunt_Page: curruntPage,
         })
     })
     .catch(err => {
-        next(err)
+        next(err);
     })
 }
 
@@ -117,4 +133,36 @@ exports.updateBlogPost = ( req, res, next) => {
     .catch(err => {
         next(err)
     })
+}
+
+exports.deleteBlogPost = (req, res, next) => {
+    const postId = req.params.postId;
+
+    BlogPost.findById(postId)
+    .then(post => {
+        if(!post){
+            const err = new Error('Blog Post Tidak ditemukan');
+            err.errorStatus = 404;
+            throw err;
+        }
+
+        removeImage(post.image);
+        return BlogPost.findByIdAndRemove(postId);
+    })
+    .then(result => {
+        res.status(200).json({
+            massege: 'hapus blog post berhasil',
+            data: result,
+        })
+    })
+    .catch(err => {
+        next(err);
+    })
+}
+
+const removeImage = (filePath) => {
+    console.log('isi filepath', filePath);
+    console.log('isi dir name', __dirname);
+    filePath = path.join(__dirname, '../..', filePath);
+    fs.unlink(filePath, err => console.log('isi error hapus image', err));
 }
